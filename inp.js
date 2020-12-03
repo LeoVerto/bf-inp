@@ -4,6 +4,7 @@ function Interpreter(mems) {
     this.mp    = 0; // memory pointer
     this.ip    = 0; // instruction pointer
     this.inpi  = 0; // input iterator
+    this.ic = 0; // iteration counter
     this.start = new Map();
     this.end   = new Map();
 }
@@ -68,6 +69,7 @@ Interpreter.prototype.step = function(by = 1) {
         case ']':
             if(this.mem[this.mp] != 0)
                 this.ip = this.start[this.ip];
+                this.ic++;
             break;
     }
     this.ip += by;
@@ -80,6 +82,6 @@ Interpreter.prototype.skip = function() {
 
 
 Interpreter.prototype.run = function() {
-    while(this.ip < this.code.length)
+    while(this.ip < this.code.length && this.ic < 1000)
         this.step();
 }
